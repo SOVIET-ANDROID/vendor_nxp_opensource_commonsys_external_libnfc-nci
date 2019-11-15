@@ -62,7 +62,6 @@ struct INfc;
  */
 //#define ENABLE_ESE_CLIENT TRUE
 
-#if (NXP_EXTNS == TRUE)
 namespace vendor {
 namespace nxp {
 namespace hardware {
@@ -78,8 +77,7 @@ namespace nfc {
 namespace V1_1 {
 struct INqNfc;
 } } } } }
-typedef void(tNFC_JNI_FWSTATUS_CBACK)(uint8_t status);
-#endif
+
 class NfcDeathRecipient;
 class ThreadMutex {
  public:
@@ -129,11 +127,7 @@ class NfcAdaptation {
   void DeviceShutdown();
   static NfcAdaptation& GetInstance();
   tHAL_NFC_ENTRY* GetHalEntryFuncs();
-#if (NXP_EXTNS == TRUE)
-  bool DownloadFirmware(tNFC_JNI_FWSTATUS_CBACK* p_cback, bool isNfcOn);
-#else
   bool DownloadFirmware();
-#endif
   void GetVendorConfigs(std::map<std::string, ConfigValue>& configMap);
 #if (NXP_EXTNS == TRUE)
   void GetNxpConfigs(std::map<std::string, ConfigValue>& configMap);
@@ -143,7 +137,6 @@ class NfcAdaptation {
   void Dump(int fd);
 #if (NXP_EXTNS == TRUE)
   nfc_nci_IoctlInOutData_t* mCurrentIoctlData;
-  tNFC_JNI_FWSTATUS_CBACK* p_fwupdate_status_cback;
 #endif
  private:
   NfcAdaptation();
